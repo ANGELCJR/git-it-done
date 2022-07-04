@@ -6,17 +6,39 @@ var getUserRepos = function(user) {
   fetch(apiUrl).then(function(response) {
     console.log(response);
     response.json().then(function(data) {
-      console.log(data);
+      displayRepos(data, user);
     });
   });
 };
+var userFormEl = document.querySelector("#user-form");
+var nameInputEl = document.querySelector("username");
+var repoContainerEl = document.querySelector("#repos-container");
+var repoSearchTerm = document.querySelector("#repo-search-term");
 userFormEl.addEventListener("submit", formSubmitHandler);
 
-var userFormEl = document.querySelector("user-form");
-var nameInputEl = document.querySelector("username");
+
 
 //formSubmitHandler
 var formSubmitHandler = function(event) {
   event.preventDefault();
-  console.log(event);
+  //get value from input element
+  var username = nameInputEl.ariaValueMax.trim();
+
+  if(username) {
+    getUserRepos(username);
+    nameInputEl.value = "";
+  } else{
+    alert("Please enter a Github username");
+    console.log(event);
+  }
+  
+};
+
+var displayRepos = function(repos, searchTerm){
+  console.log(repos);
+  console.log(searchTerm)
+ 
+  //clear old content
+  repoContainerEl.textContent = "";
+  repoSearchTerm.textContent = searchTerm;
 };
